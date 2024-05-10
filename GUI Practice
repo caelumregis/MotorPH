@@ -1,0 +1,71 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GradeCalculator extends JFrame implements ActionListener {
+
+    JLabel l1, l2, l3;
+    JTextField t1, t2, t3;
+    JButton b1;
+
+    public GradeCalculator() {
+        super("Grade Calculator");
+
+        l1 = new JLabel("Milestone 1");
+        l2 = new JLabel("Milestone 2");
+        l3 = new JLabel("Terminal Assessment");
+
+        t1 = new JTextField(10);
+        t2 = new JTextField(10);
+        t3 = new JTextField(10);
+
+        b1 = new JButton("Calculate Grades");
+        b1.addActionListener(this);
+
+        setLayout(new FlowLayout(FlowLayout.LEFT, 150, 10));
+
+        add(l1);
+        add(t1);
+        add(l2);
+        add(t2);
+        add(l3);
+        add(t3);
+
+        add(b1);
+
+        setSize(400, 300);
+        setVisible(true);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == b1) {
+            try {
+                int milestone1 = Integer.parseInt(t1.getText());
+                int milestone2 = Integer.parseInt(t2.getText());
+                int terminalAssessment = Integer.parseInt(t3.getText());
+
+                if (milestone1 < 0 || milestone1 > 25 || milestone2 < 0 || milestone2 > 40 ||
+                        terminalAssessment < 0 || terminalAssessment > 35) {
+                    throw new IllegalArgumentException("Invalid input. Grades should be between 0 and the maximum points per Milestone.");
+                }
+
+                double totalGrade = milestone1 + milestone2 + terminalAssessment;
+                double totalPercentage = (totalGrade / (milestone1 + milestone2 + terminalAssessment)) * 100;
+
+                JOptionPane.showMessageDialog(this, "Total Grade: " + totalGrade + "%" );
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numbers for grades.");
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new GradeCalculator();
+    }
+}
+
